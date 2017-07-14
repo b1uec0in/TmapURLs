@@ -1,0 +1,93 @@
+<html>
+<head>
+    <!--
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    -->
+    <script language="javascript" src="https://apis.skplanetx.com/tmap/js?version=1&format=javascript&appKey=8832c5a7-7f96-3390-a61d-a796b5089f4f"></script>
+    <script type="text/javascript">
+    function urlParameter(name) {
+        var url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    var map = null;
+    var markerLayer = null;
+    function initialize() {
+        map = new Tmap.Map({div:"map_div", width:'100%', height:'100%'});
+        markerLayer = new Tmap.Layer.Markers();
+        map.addLayer(markerLayer);
+
+        map.addControl(new Tmap.Control.KeyboardDefaults());
+        map.addControl(new Tmap.Control. OverviewMap());
+
+        var query = urlParameter("query");
+
+        if (query != null && query.length > 0) {
+            var locations = query.split(",");
+            if (locations != null && locations.length == 2) {
+                var lat = parseFloat(locations[0]);
+                var lon = parseFloat(locations[1]);
+
+                if (lat > 0 && lon > 0) {
+                    showLatLon(lat,lon);
+                    return;
+                }
+
+            }
+
+            findPOI(query);
+        }
+    }
+
+    function findPOI(query) {
+        var options ={version:1}
+        var encodingSearchText = encodeURIComponent(query);
+
+        var tData = new Tmap.TData();
+        tData.events.register("onComplete", tData,onCompleteFindPOI);
+        tData.events.register("onError", tData, onErrorFindPOI);
+        tData.getPOIDataFromSearch(encodingSearchText,options);
+    }
+
+    function onCompleteFindPOI() {
+        var xml = this.responseXML;
+        // console.log(new XMLSerializer().serializeToString(xml));
+
+        var name = xml.evaluate("//poi[1]/name/text()", xml, null, XPathResult.STRING_TYPE, null).stringValue;
+        var lat = xml.evaluate("//poi[1]/frontLat/text()", xml, null, XPathResult.STRING_TYPE, null).stringValue;
+        var lon = xml.evaluate("//poi[1]/frontLon/text()", xml, null, XPathResult.STRING_TYPE, null).stringValue;
+        console.log(name + ": " + lat +", " + lon);
+        showLatLon(lat, lon)
+    }
+
+    function showLatLon(lat, lon) {
+        var lonlat = new Tmap.LonLat(lon, lat);
+
+        var size = new Tmap.Size(24,38);
+        var offset = new Tmap.Pixel(-(size.w/2), -size.h);
+        var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_r_m_0.png', size, offset);
+        var marker = new Tmap.Marker(lonlat, icon);
+
+        markerLayer.addMarker(marker);
+        map.setCenter(lonlat);
+    }
+
+    function onErrorFindPOI(){
+        console.log("onErrorLoadPoiDat");
+    }
+
+    window.onload = function() {
+        initialize();
+    }
+    </script>
+
+</head>
+<body>
+<div id="map_div" ></div>
+</body>
+</html>
