@@ -70,9 +70,9 @@
         var xml = this.responseXML;
         // console.log(new XMLSerializer().serializeToString(xml));
 
-        var name = xml.evaluate("//poi[1]/name/text()", xml, null, XPathResult.STRING_TYPE, null).stringValue;
-        var lat = xml.evaluate("//poi[1]/frontLat/text()", xml, null, XPathResult.STRING_TYPE, null).stringValue;
-        var lon = xml.evaluate("//poi[1]/frontLon/text()", xml, null, XPathResult.STRING_TYPE, null).stringValue;
+        var name = xpath(xml, "//poi[1]/name/text()");
+        var lat = xpath(xml, "//poi[1]/frontLat/text()");
+        var lon = xpath(xml, "//poi[1]/frontLon/text()");
         console.log(name + ": " + lat +", " + lon);
         showLatLon(lat, lon)
     }
