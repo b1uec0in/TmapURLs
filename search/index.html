@@ -1,9 +1,6 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <!--
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    -->
     <script language="javascript" src="https://apis.skplanetx.com/tmap/js?version=1&format=javascript&appKey=8832c5a7-7f96-3390-a61d-a796b5089f4f"></script>
     <script type="text/javascript">
     if (!window.console) console = {log: function() {}};
@@ -37,7 +34,14 @@
                 var lon = parseFloat(locations[1]);
 
                 if (lat > 0 && lon > 0) {
-                    showLatLon(lat,lon);
+                    // WGS84(GoogleMap) to ESPG:3857(Tmap)
+                    var pr_3857 = new Tmap.Projection("EPSG:3857");
+                    var pr_4326 = new Tmap.Projection("EPSG:4326"); // WGS84
+
+                    var tmapLonLat = new Tmap.LonLat(lon, lat).transform(pr_4326, pr_3857);
+                    console.log("lat: " + tmapLonLat.lat + "lon: " + tmapLonLat.lon);
+
+                    showLatLon(tmapLonLat.lat, tmapLonLat.lon);
                     return;
                 }
 

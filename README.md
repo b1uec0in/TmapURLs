@@ -17,8 +17,8 @@ The search action displays results for a search across the visible map region. W
 
 
 ## Example
-[https://b1uec0in.github.io/tmapurls/search/?api=1&query=4509961.60848102,14143597.62234898](https://b1uec0in.github.io/tmapurls/search/?api=1&query=4509961.60848102,14143597.62234898)
-[https://b1uec0in.github.io/tmapurls/search/?api=1&query=SK테크엑스](https://b1uec0in.github.io/tmapurls/search/?api=1&query=SK테크엑스)
+[https://b1uec0in.github.io/tmapurls/search/?query=37.5065731,127.0546535](https://b1uec0in.github.io/tmapurls/search/?query=37.5065731,127.0546535)
+[https://b1uec0in.github.io/tmapurls/search/?query=SK테크엑스](https://b1uec0in.github.io/tmapurls/search/?query=SK테크엑스)
 
 ## Related Links
 * Github project:<br/>
