@@ -80,19 +80,40 @@
         var lat = xpath(xml, "//poi/frontLat/text()");
         var lon = xpath(xml, "//poi/frontLon/text()");
         console.log(name + ": " + lat +", " + lon);
-        showLatLon(lat, lon)
+        showLatLon(lat, lon, name)
     }
 
-    function showLatLon(lat, lon) {
+    function showLatLon(lat, lon, name) {
+        var parameterName = urlParameter("name");
+        if (parameterName) name = parameterName; // if name urlParameter exist, ignore name value of search result.
+        if (typeof name == "undefined") name = "";
         var lonlat = new Tmap.LonLat(lon, lat);
 
         var size = new Tmap.Size(24,38);
         var offset = new Tmap.Pixel(-(size.w/2), -size.h);
         var icon = new Tmap.Icon('https://developers.skplanetx.com/upload/tmap/marker/pin_r_m_0.png', size, offset);
-        var marker = new Tmap.Marker(lonlat, icon);
+        var label = new Tmap.Label(name)
+        var markers = new Tmap.Markers(lonlat, icon, label);
 
-        markerLayer.addMarker(marker);
+        markerLayer.addMarker(markers);
+        if (name) {
+            markers.events.register("click", markers, function(evt) {
+                if (markers.popup.visible()) {
+                    markers.popup.hide();
+                } else {
+                    markers.popup.show();
+                }
+            });
+            markers.popup.events.register("click", markers, function(evt) {
+                markers.popup.hide();
+            });
+            markers.popup.show()
+        }
         map.setCenter(lonlat);
+    }
+
+    function onClickMarker (evt){
+        console.log(evt);
     }
 
     function onErrorFindPOI(){
