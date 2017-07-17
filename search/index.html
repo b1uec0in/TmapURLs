@@ -6,6 +6,8 @@
     -->
     <script language="javascript" src="https://apis.skplanetx.com/tmap/js?version=1&format=javascript&appKey=8832c5a7-7f96-3390-a61d-a796b5089f4f"></script>
     <script type="text/javascript">
+    if (!window.console) console = {log: function() {}};
+
     function urlParameter(name) {
         var url = window.location.href;
         name = name.replace(/[\[\]]/g, "\\$&");
