@@ -55,6 +55,13 @@
         tData.getPOIDataFromSearch(encodingSearchText,options);
     }
 
+    function xpath(xml, path) {
+        if (xml.evaluate) {
+            return xml.evaluate(path, xml, null, XPathResult.STRING_TYPE, null).stringValue;
+        } else {
+            return xml.selectNodes(path);
+        }
+    }
     function onCompleteFindPOI() {
         var xml = this.responseXML;
         // console.log(new XMLSerializer().serializeToString(xml));
