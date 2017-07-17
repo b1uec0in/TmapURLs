@@ -59,8 +59,12 @@
         if (xml.evaluate) {
             return xml.evaluate(path, xml, null, XPathResult.STRING_TYPE, null).stringValue;
         } else {
-            return xml.selectNodes(path);
+            var nodes = xml.selectNodes(path);
+            if (nodes) {
+                return nodes[0].nodeValue;
+            }
         }
+        return "";
     }
     function onCompleteFindPOI() {
         var xml = this.responseXML;
