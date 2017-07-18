@@ -77,8 +77,8 @@
         // console.log(new XMLSerializer().serializeToString(xml));
 
         var name = xpath(xml, "//poi/name/text()");
-        var lat = xpath(xml, "//poi/frontLat/text()");
-        var lon = xpath(xml, "//poi/frontLon/text()");
+        var lat = xpath(xml, "//poi/noorLat/text()");
+        var lon = xpath(xml, "//poi/noorLon/text()");
         console.log(name + ": " + lat +", " + lon);
         showLatLon(lat, lon, name)
     }
