@@ -25,6 +25,47 @@
         map.addControl(new Tmap.Control.KeyboardDefaults());
         map.addControl(new Tmap.Control. OverviewMap());
 
+        searchByQueryPlaceId();
+
+    }
+
+    function searchByQueryPlaceId() {
+        var id = urlParameter("query_place_id");
+
+        if (id != null && id.length > 0) {
+            var options ={version:1}
+            var encodingSearchText = encodeURIComponent(id);
+
+            var tData = new Tmap.TData();
+            tData.events.register("onComplete", tData,onCompleteFindPOIFromId);
+            tData.events.register("onError", tData, onErrorFindPOIFromId);
+            tData.getPOIDataFromId(encodingSearchText,options);
+        } else {
+            searchByQuery();
+        }
+    }
+
+    function onCompleteFindPOIFromId() {
+        var xml = this.responseXML;
+        console.log(new XMLSerializer().serializeToString(xml));
+
+        var name = xpath(xml, "//poiDetailInfo/name/text()");
+        if (name != null && name.length > 0) {
+            var lat = xpath(xml, "//poiDetailInfo/lat/text()");
+            var lon = xpath(xml, "//poiDetailInfo/lon/text()");
+            console.log(name + ": " + lat +", " + lon);
+            showLatLon(lat, lon, name)
+        } else {
+            searchByQuery();
+        }
+    }
+
+    function onErrorFindPOIFromId(){
+        console.log("onErrorFindPOIFromId");
+        searchByQuery();
+    }
+
+    function searchByQuery() {
         var query = urlParameter("query");
 
         if (query != null && query.length > 0) {
@@ -47,18 +88,34 @@
 
             }
 
-            findPOI(query);
+            searchByKeyword(query);
         }
     }
 
-    function findPOI(query) {
+
+    function searchByKeyword(query) {
         var options ={version:1}
         var encodingSearchText = encodeURIComponent(query);
 
         var tData = new Tmap.TData();
-        tData.events.register("onComplete", tData,onCompleteFindPOI);
-        tData.events.register("onError", tData, onErrorFindPOI);
+        tData.events.register("onComplete", tData,onCompleteFindPOIFromSearch);
+        tData.events.register("onError", tData, onErrorFindPOIFromSearch);
         tData.getPOIDataFromSearch(encodingSearchText,options);
+    }
+
+    function onCompleteFindPOIFromSearch() {
+        var xml = this.responseXML;
+        console.log(new XMLSerializer().serializeToString(xml));
+
+        var name = xpath(xml, "//poi/name/text()");
+        var lat = xpath(xml, "//poi/noorLat/text()");
+        var lon = xpath(xml, "//poi/noorLon/text()");
+        console.log(name + ": " + lat +", " + lon);
+        showLatLon(lat, lon, name)
+    }
+
+    function onErrorFindPOIFromSearch(){
+        console.log("onErrorFindPOIFromSearch");
     }
 
     function xpath(xml, path) {
@@ -72,16 +129,7 @@
         }
         return "";
     }
-    function onCompleteFindPOI() {
-        var xml = this.responseXML;
-        // console.log(new XMLSerializer().serializeToString(xml));
 
-        var name = xpath(xml, "//poi/name/text()");
-        var lat = xpath(xml, "//poi/noorLat/text()");
-        var lon = xpath(xml, "//poi/noorLon/text()");
-        console.log(name + ": " + lat +", " + lon);
-        showLatLon(lat, lon, name)
-    }
 
     function showLatLon(lat, lon, name) {
         var parameterName = urlParameter("name");
@@ -114,10 +162,6 @@
 
     function onClickMarker (evt){
         console.log(evt);
-    }
-
-    function onErrorFindPOI(){
-        console.log("onErrorLoadPoiDat");
     }
 
     window.onload = function() {
