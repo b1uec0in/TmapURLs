@@ -3,7 +3,7 @@
 Tmap API URLs  (like Google Maps URLs)<br/>
 **[Google Maps URLs](https://developers.google.com/maps/documentation/urls/guide)** 처럼 URL 링크를 사용해 Tmap을 보여줍니다
 
-![screenshot 1](screenshots/search.png "search by query")
+![screenshot 1](screenshot/search.png "search by query")
 
 ## Map actions
 ### search
