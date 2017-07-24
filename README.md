@@ -3,6 +3,9 @@
 Tmap API URLs  (like Google Maps URLs)<br/>
 **[Google Maps URLs](https://developers.google.com/maps/documentation/urls/guide)** 처럼 URL 링크를 사용해 Tmap을 보여줍니다
 
+[![Language: java|swift](https://img.shields.io/badge/license-MIT-000000.svg)](LICENSE)
+[![Language: java|swift](https://img.shields.io/badge/language-HTML|JavaScript-84acfe.svg)]()
+
 ![screenshot 1](screenshot/search.png "search by query")
 
 ## Map actions
@@ -48,4 +51,3 @@ parameter value는 항상 url encode 해야합니다. (일부 브라우저는 �
 
 * Google Maps URLs guide:<br/>
 [https://developers.google.com/maps/documentation/urls/guide](https://developers.google.com/maps/documentation/urls/guide)
-
