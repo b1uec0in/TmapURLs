@@ -4,7 +4,7 @@ Tmap API URLs  (like Google Maps URLs)<br/>
 **[Google Maps URLs](https://developers.google.com/maps/documentation/urls/guide)** 처럼 URL 링크를 사용해 Tmap을 보여줍니다
 
 [![Language: java|swift](https://img.shields.io/badge/license-MIT-000000.svg)](LICENSE)
-[![Language: java|swift](https://img.shields.io/badge/language-HTML|JavaScript-84acfe.svg)]()
+[![Language: java|swift](https://img.shields.io/badge/language-HTML|JavaScript-84acfe.svg)](https://github.com/b1uec0in/tmapurls)
 
 ![screenshot 1](screenshot/search.png "search by query")
 
